@@ -41,9 +41,15 @@ const isActive = (path: string) => {
     >
       <a
         href="/"
-        class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
+        class="text-md absolute py-1 leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-xl sm:leading-none"
       >
         {SITE.title}
+        <div class="mt-1 flex items-center space-x-1">
+          <div class="h-0.5 w-6 bg-gradient-to-r from-white to-transparent">
+          </div>
+          <div class="h-1 w-1 animate-pulse rounded-full bg-orange-400"></div>
+          <div class="h-1 w-1 animate-pulse rounded-full bg-white"></div>
+        </div>
       </a>
       <nav
         id="nav-menu"
