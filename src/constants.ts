@@ -7,6 +7,7 @@ import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
 import IconFacebook from "@/assets/icons/IconFacebook.svg";
 import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
+import IconWeb from "@/assets/icons/IconWeb.svg";
 import { SITE } from "@/config";
 
 interface Social {
@@ -18,21 +19,27 @@ interface Social {
 
 export const SOCIALS: Social[] = [
   {
+    name: "Web",
+    href: "https://sagarshetty.netlify.app/",
+    linkTitle: `Visit ${SITE.author}'s website`,
+    icon: IconWeb,
+  },
+  {
     name: "GitHub",
     href: "https://github.com/Sagar-Shetty21",
-    linkTitle: `${SITE.title} on GitHub`,
+    linkTitle: `Visit ${SITE.author}'s GitHub`,
     icon: IconGitHub,
   },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/in/sagarshetty21",
-    linkTitle: `${SITE.title} on LinkedIn`,
+    linkTitle: `Visit ${SITE.author}'s LinkedIn`,
     icon: IconLinkedin,
   },
   {
     name: "Mail",
     href: "mailto:dev.sagarshetty@gmail.com",
-    linkTitle: `Send an email to ${SITE.title}`,
+    linkTitle: `Send an email to ${SITE.author}'s email`,
     icon: IconMail,
   },
 ] as const;

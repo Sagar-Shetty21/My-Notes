@@ -45,10 +45,12 @@ const isActive = (path: string) => {
       >
         {SITE.title}
         <div class="mt-1 flex items-center space-x-1">
-          <div class="h-0.5 w-6 bg-gradient-to-r from-white to-transparent">
+          <div
+            class="h-0.5 w-6 bg-gradient-to-r from-foreground to-transparent"
+          >
           </div>
-          <div class="h-1 w-1 animate-pulse rounded-full bg-orange-400"></div>
-          <div class="h-1 w-1 animate-pulse rounded-full bg-white"></div>
+          <div class="h-1 w-1 animate-pulse rounded-full bg-accent"></div>
+          <div class="h-1 w-1 animate-pulse rounded-full bg-foreground"></div>
         </div>
       </a>
       <nav

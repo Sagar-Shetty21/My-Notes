@@ -3,35 +3,42 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, accessible and SEO-friendly blog theme built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
+<br>
 
-![Astro Paper](public/astropaper-og.jpg)
+# Hi, I'm Sagar Shetty 👋
 
-AstroPaper provides a solid foundation for blogs, or even portfolios\_ with full markdown support, built-in dark mode, and a clean layout that works out-of-the-box.
+I'm a passionate full-stack developer based in Bengaluru with 15+ months of professional experience. I specialize in creating applications that users actually want to use, focusing on clean code and intuitive user experiences.
 
-The blog posts in this theme also serve as guides, docs or example articles\_ making AstroPaper a flexible starting point for your next content-driven site.
+## What I Do
 
-## Features
+I build web applications using React, Node.js, Python, and other modern technologies. I enjoy solving complex problems and creating solutions that make a difference.
 
-AstroPaper comes with a set of useful features that make content publishing easy and effective:
+When I'm not coding, I like to:
 
-- SEO-friendly
-- Fast performance
-- Light & dark mode
-- Highly customizable
-- Organizable blog posts
-- Responsive & accessible
-- Static search with [PageFind](https://pagefind.app/)
-- Automatic social image generation
+- Explore new technologies and frameworks
+- Contribute to open-source projects
+- Share knowledge with the developer community
 
-and so much more.
+## Tech Stack
 
-## Show your support
+**Frontend:** React, Next.js, Svelte, Tailwind CSS  
+**Backend:** Node.js, Express.js, Python  
+**Databases:** MongoDB, MySQL, Firebase, Supabase  
+**Cloud:** AWS (S3, RDS), Docker, Redis  
+**Other Tools:** The usual suspects that make modern development bearable
 
-If you like [AstroPaper](https://github.com/satnaing/astro-paper), consider giving it a star ⭐️.
+## My Approach
 
-Found a bug 🐛 or have an improvement ✨ in mind? Feel free to open an [issue](https://github.com/satnaing/astro-paper/issues), submit a [pull request](https://github.com/satnaing/astro-paper/pulls) or start a [discussion](https://github.com/satnaing/astro-paper/discussions).
+I believe in writing clean, maintainable code and building applications that solve real problems. I focus on creating user-friendly interfaces backed by robust, scalable systems.
 
-If you find this theme helpful, you can also [sponsor me on GitHub](https://github.com/sponsors/satnaing) or [buy me a coffee](https://buymeacoffee.com/satnaing) to show your support — every penny counts.
+## Projects & Portfolio
 
-Kyay zuu! 🙏🏼
+Want to see what I've been working on? Check out my projects at [sagarshetty.netlify.app](https://sagarshetty.netlify.app/) where I showcase my latest work and experiments.
+
+## Let's Connect
+
+Always open to discussing new opportunities, interesting projects, or just chatting about the latest in web development.
+
+---
+
+_"Making the web a slightly better place, one commit at a time."_
