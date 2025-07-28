@@ -2,7 +2,7 @@
 export default {
   arrowParens: "avoid",
   semi: true,
-  tabWidth: 2,
+  tabWidth: 4,
   printWidth: 80,
   singleQuote: false,
   jsxSingleQuote: false,
