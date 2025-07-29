@@ -1,410 +1,459 @@
 ---
 // src/pages/admin/index.astro
+import { supabase } from "@/lib/supabaseClient";
 import Layout from "../../layouts/Layout.astro";
+import { slugifyStr } from "@/utils/slugify";
 
-// Mock data - replace with your actual data fetching
-const recentArticles = [
-  {
-    id: 1,
-    title: "Getting Started with Astro",
-    author: "John Doe",
-    publishedAt: "2024-01-15",
-    status: "published",
-    excerpt:
-      "Learn the basics of building fast websites with Astro framework...",
-  },
-  {
-    id: 2,
-    title: "Advanced TypeScript Techniques",
-    author: "Jane Smith",
-    publishedAt: "2024-01-12",
-    status: "published",
-    excerpt: "Explore advanced TypeScript patterns and best practices...",
-  },
-  {
-    id: 3,
-    title: "Modern CSS Grid Layouts",
-    author: "Mike Johnson",
-    publishedAt: "2024-01-10",
-    status: "published",
-    excerpt: "Master CSS Grid for responsive and flexible layouts...",
-  },
-  {
-    id: 4,
-    title: "React Server Components",
-    author: "Sarah Wilson",
-    publishedAt: "2024-01-08",
-    status: "draft",
-    excerpt: "Understanding the future of React with Server Components...",
-  },
-  {
-    id: 5,
-    title: "Performance Optimization Tips",
-    author: "David Brown",
-    publishedAt: "2024-01-05",
-    status: "published",
-    excerpt: "Boost your website performance with these proven techniques...",
-  },
-];
+type Article = {
+    id: number;
+    author: string;
+    pubDatetime: string;
+    modDatetime: string;
+    title: string;
+    tags: string[];
+    description: string;
+    featured: boolean;
+    draft: boolean;
+    ogImage?: string;
+    canonicalUrl?: string;
+    hideEditPost?: boolean;
+    timezone?: string;
+    collection: string;
+    body: string;
+};
 
-const totalArticles = 127;
-const publishedArticles = 89;
-const draftArticles = 38;
+const { data, error: recentArticlesError } = await supabase
+    .from("latest_blogs")
+    .select("*");
+const recentArticles = (data ?? []) as Article[];
+
+const { count: totalCount, error: totalArticlesError } = await supabase
+    .from("blogs")
+    .select("*", { count: "exact", head: true });
+
+const { count: publishedCount, error: publishedArticlesError } = await supabase
+    .from("blogs")
+    .select("*", { count: "exact", head: true })
+    .eq("draft", false);
+
+const { count: draftCount, error: draftArticlesError } = await supabase
+    .from("blogs")
+    .select("*", { count: "exact", head: true })
+    .eq("draft", true);
+
+const totalArticles = totalCount;
+const publishedArticles = publishedCount;
+const draftArticles = draftCount;
 ---
 
 <Layout>
-  <div
-    class="flex max-h-screen min-h-screen flex-col overflow-hidden bg-background/80 text-foreground"
-  >
-    <!-- Header -->
-    <header class="flex-shrink-0 border-b bg-background shadow-sm">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between py-6">
-          <div>
-            <h1 class="text-3xl font-bold text-foreground">
-              Blog Admin Dashboard
-            </h1>
-            <p class="mt-1 text-foreground/80">
-              Manage your blog content and articles
-            </p>
-          </div>
-          <div class="flex space-x-4">
-            <a
-              href="/admin/create"
-              class="flex items-center space-x-2 rounded-lg bg-accent px-6 py-3 font-medium text-foreground transition-colors duration-200 hover:bg-accent/80"
-            >
-              <svg
-                class="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4v16m8-8H4"></path>
-              </svg>
-              <span>Create New Article</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </header>
-
     <div
-      class="mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col px-4 py-8 sm:px-6 lg:px-8"
+        class="flex max-h-screen min-h-screen flex-col overflow-hidden bg-background/80 text-foreground"
     >
-      <!-- Stats Cards -->
-      <div class="mb-8 grid flex-shrink-0 grid-cols-1 gap-6 md:grid-cols-3">
-        <div class="rounded-lg bg-muted p-6 shadow">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100"
-              >
-                <svg
-                  class="h-5 w-5 text-accent"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-foreground/80">
-                Total Articles
-              </p>
-              <p class="text-2xl font-semibold text-foreground">
-                {totalArticles}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-lg bg-muted p-6 shadow">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100"
-              >
-                <svg
-                  class="h-5 w-5 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-foreground/80">Published</p>
-              <p class="text-2xl font-semibold text-foreground">
-                {publishedArticles}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-lg bg-muted p-6 shadow">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-100"
-              >
-                <svg
-                  class="h-5 w-5 text-yellow-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-foreground/80">Drafts</p>
-              <p class="text-2xl font-semibold text-foreground">
-                {draftArticles}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Articles Section -->
-      <div
-        class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg shadow"
-      >
-        <div
-          class="flex flex-shrink-0 items-center justify-between border-b border-border bg-muted px-6 py-4"
-        >
-          <div>
-            <h2 class="text-xl font-semibold text-foreground">
-              Recent Articles
-            </h2>
-            <p class="mt-1 text-sm text-foreground/80">
-              Latest published and draft articles
-            </p>
-          </div>
-          <a
-            href="/admin/articles"
-            class="hover:accent/80 flex items-center space-x-1 text-sm font-medium text-accent"
-          >
-            <span>View All Articles</span>
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
-
-        <!-- Scrollable Articles Container -->
-        <div class="flex-1 overflow-y-auto bg-muted">
-          <div class="divide-y divide-border">
-            {
-              recentArticles.map(article => (
-                <div class="px-6 py-4 transition-colors duration-200 hover:bg-background/20">
-                  <div class="flex items-center justify-between">
-                    <div class="min-w-0 flex-1">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="truncate text-lg font-medium text-foreground">
-                          {article.title}
-                        </h3>
-                        <span
-                          class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                            article.status === "published"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
-                        >
-                          {article.status}
-                        </span>
-                      </div>
-                      <p class="mt-1 line-clamp-2 text-sm text-foreground/80">
-                        {article.excerpt}
-                      </p>
-                      <div class="mt-2 flex items-center space-x-4 text-sm text-foreground/40">
-                        <span>By {article.author}</span>
-                        <span>•</span>
-                        <span>
-                          {new Date(article.publishedAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
-                        </span>
-                      </div>
+        <!-- Header -->
+        <header class="flex-shrink-0 border-b bg-background shadow-sm">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between py-6">
+                    <div>
+                        <h1 class="text-3xl font-bold text-foreground">
+                            Blog Admin Dashboard
+                        </h1>
+                        <p class="mt-1 text-foreground/80">
+                            Manage your blog content and articles
+                        </p>
                     </div>
-
-                    <div class="ml-4 flex items-center space-x-2">
-                      <a
-                        href={`/admin/edit/${article.id}`}
-                        class="rounded-lg p-2 text-blue-600 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-800"
-                        title="Edit Article"
-                      >
-                        <svg
-                          class="h-5 w-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                    <div class="flex space-x-4">
+                        <a
+                            href="/admin/manage-article"
+                            class="flex items-center space-x-2 rounded-lg bg-accent px-6 py-3 font-medium text-foreground transition-colors duration-200 hover:bg-accent/80"
                         >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                          />
-                        </svg>
-                      </a>
-
-                      <a
-                        href={`/blog/${article.id}`}
-                        class="rounded-lg p-2 text-gray-600 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-800"
-                        title="View Article"
-                        target="_blank"
-                      >
-                        <svg
-                          class="h-5 w-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                      </a>
-
-                      {article.status === "published" ? (
-                        <button
-                          class="rounded-lg p-2 text-red-600 transition-colors duration-200 hover:bg-red-50 hover:text-red-800"
-                          title="Unpublish Article"
-                          onclick={`unpublishArticle(${article.id})`}
-                        >
-                          <svg
-                            class="h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                            />
-                          </svg>
-                        </button>
-                      ) : (
-                        <button
-                          class="rounded-lg p-2 text-green-600 transition-colors duration-200 hover:bg-green-50 hover:text-green-800"
-                          title="Publish Article"
-                          onclick={`publishArticle(${article.id})`}
-                        >
-                          <svg
-                            class="h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                            />
-                          </svg>
-                        </button>
-                      )}
+                            <svg
+                                class="h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span>Create New Article</span>
+                        </a>
                     </div>
-                  </div>
                 </div>
-              ))
-            }
-          </div>
-        </div>
+            </div>
+        </header>
 
-        <div class="flex-shrink-0 border-t border-border bg-muted px-6 py-4">
-          <a
-            href="/admin/articles"
-            class="flex items-center justify-center space-x-2 text-sm font-medium text-accent hover:text-accent/80"
-          >
-            <span>View All {totalArticles} Articles</span>
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        <div
+            class="mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col px-4 py-8 sm:px-6 lg:px-8"
+        >
+            <!-- Stats Cards -->
+            <div
+                class="mb-8 grid flex-shrink-0 grid-cols-1 gap-6 md:grid-cols-3"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-            </svg>
-          </a>
+                <div class="rounded-lg bg-muted p-6 shadow">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100"
+                            >
+                                <svg
+                                    class="h-5 w-5 text-accent"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-foreground/80">
+                                Total Articles
+                            </p>
+                            <p
+                                class={`font-semibold ${!totalArticlesError ? "text-foreground text-2xl" : "text-red-500 text-lg"}`}
+                            >
+                                {
+                                    !totalArticlesError
+                                        ? totalArticles
+                                        : "Error fetching total articles"
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg bg-muted p-6 shadow">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100"
+                            >
+                                <svg
+                                    class="h-5 w-5 text-green-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-foreground/80">
+                                Published
+                            </p>
+                            <p
+                                class={`font-semibold ${!publishedArticlesError ? "text-foreground text-2xl" : "text-red-500 text-lg"}`}
+                            >
+                                {
+                                    !publishedArticlesError
+                                        ? publishedArticles
+                                        : "Error fetching published articles"
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg bg-muted p-6 shadow">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-100"
+                            >
+                                <svg
+                                    class="h-5 w-5 text-yellow-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-foreground/80">
+                                Drafts
+                            </p>
+                            <p
+                                class={`font-semibold ${!draftArticlesError ? "text-foreground text-2xl" : "text-red-500 text-lg"}`}
+                            >
+                                {
+                                    !draftArticlesError
+                                        ? draftArticles
+                                        : "Error fetching draft articles"
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Articles Section -->
+            <div
+                class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg shadow"
+            >
+                <div
+                    class="flex flex-shrink-0 items-center justify-between border-b border-border bg-muted px-6 py-4"
+                >
+                    <div>
+                        <h2 class="text-xl font-semibold text-foreground">
+                            Recent Articles
+                        </h2>
+                        <p class="mt-1 text-sm text-foreground/80">
+                            Latest published and draft articles
+                        </p>
+                    </div>
+                    <a
+                        href="/admin/articles"
+                        class="hover:accent/80 flex items-center space-x-1 text-sm font-medium text-accent"
+                    >
+                        <span>View All Articles</span>
+                        <svg
+                            class="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Scrollable Articles Container -->
+                <div class="flex-1 overflow-y-auto bg-muted">
+                    <div class="divide-y divide-border">
+                        {
+                            recentArticles.length > 0 ? (
+                                recentArticles.map(article => (
+                                    <div class="px-6 py-4 transition-colors duration-200 hover:bg-background/20">
+                                        <div class="flex items-center justify-between">
+                                            <div class="min-w-0 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <h3 class="truncate text-lg font-medium text-foreground">
+                                                        {article.title}
+                                                    </h3>
+                                                    <span
+                                                        class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                                            article.draft
+                                                                ? "bg-yellow-100 text-yellow-800"
+                                                                : "bg-green-100 text-green-800"
+                                                        }`}
+                                                    >
+                                                        {article.draft
+                                                            ? "Draft"
+                                                            : "Published"}
+                                                    </span>
+                                                </div>
+                                                <p class="mt-1 line-clamp-2 text-sm text-foreground/80">
+                                                    {article.description}
+                                                </p>
+                                                <div class="mt-2 flex items-center space-x-4 text-sm text-foreground/40">
+                                                    <span>
+                                                        By {article.author}
+                                                    </span>
+                                                    <span>•</span>
+                                                    <span>
+                                                        {article.modDatetime
+                                                            ? new Date(
+                                                                  article.modDatetime
+                                                              ).toLocaleDateString(
+                                                                  "en-US",
+                                                                  {
+                                                                      year: "numeric",
+                                                                      month: "long",
+                                                                      day: "numeric",
+                                                                  }
+                                                              )
+                                                            : new Date(
+                                                                  article.pubDatetime
+                                                              ).toLocaleDateString(
+                                                                  "en-US",
+                                                                  {
+                                                                      year: "numeric",
+                                                                      month: "long",
+                                                                      day: "numeric",
+                                                                  }
+                                                              )}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="ml-4 flex items-center space-x-2">
+                                                <a
+                                                    href={`/admin/manage-article?id=${article.id}`}
+                                                    class="rounded-lg p-2 text-blue-600 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-800"
+                                                    title="Edit Article"
+                                                >
+                                                    <svg
+                                                        class="h-5 w-5"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                                        />
+                                                    </svg>
+                                                </a>
+
+                                                <a
+                                                    href={`/posts/${slugifyStr(article.title)}`}
+                                                    class="rounded-lg p-2 text-gray-600 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-800"
+                                                    title="View Article"
+                                                    target="_blank"
+                                                >
+                                                    <svg
+                                                        class="h-5 w-5"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                        />
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                        />
+                                                    </svg>
+                                                </a>
+
+                                                {!article.draft ? (
+                                                    <button
+                                                        class="rounded-lg p-2 text-red-600 transition-colors duration-200 hover:bg-red-50 hover:text-red-800"
+                                                        title="Unpublish Article"
+                                                        onclick={`unpublishArticle(${article.id})`}
+                                                    >
+                                                        <svg
+                                                            class="h-5 w-5"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        class="rounded-lg p-2 text-green-600 transition-colors duration-200 hover:bg-green-50 hover:text-green-800"
+                                                        title="Publish Article"
+                                                        onclick={`publishArticle(${article.id})`}
+                                                    >
+                                                        <svg
+                                                            class="h-5 w-5"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : !recentArticlesError ? (
+                                <div class="px-6 py-4 text-center text-foreground/60">
+                                    No recent articles found.
+                                </div>
+                            ) : (
+                                <div class="px-6 py-4 text-center text-red-500">
+                                    Failed to load recent articles. Please try
+                                    again later.
+                                </div>
+                            )
+                        }
+                    </div>
+                </div>
+
+                <div
+                    class="flex-shrink-0 border-t border-border bg-muted px-6 py-4"
+                >
+                    <a
+                        href="/admin/articles"
+                        class="flex items-center justify-center space-x-2 text-sm font-medium text-accent hover:text-accent/80"
+                    >
+                        <span>View All {totalArticles} Articles</span>
+                        <svg
+                            class="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script>
-    // Article management functions
-    // function publishArticle(articleId) {
-    //   if (confirm("Are you sure you want to publish this article?")) {
-    //     // Add your publish logic here
-    //     console.log("Publishing article:", articleId); // eslint-disable-line no-console
-    //     // You would typically make an API call here
-    //     // fetch(`/api/articles/${articleId}/publish`, { method: 'POST' })
-    //     //   .then(() => window.location.reload());
-    //   }
-    // }
+    <script>
+        // Article management functions
+        // function publishArticle(articleId) {
+        //   if (confirm("Are you sure you want to publish this article?")) {
+        //     // Add your publish logic here
+        //     console.log("Publishing article:", articleId); // eslint-disable-line no-console
+        //     // You would typically make an API call here
+        //     // fetch(`/api/articles/${articleId}/publish`, { method: 'POST' })
+        //     //   .then(() => window.location.reload());
+        //   }
+        // }
 
-    // function unpublishArticle(articleId) {
-    //   if (confirm("Are you sure you want to unpublish this article?")) {
-    //     // Add your unpublish logic here
-    //     console.log("Unpublishing article:", articleId); // eslint-disable-line no-console
-    //     // You would typically make an API call here
-    //     // fetch(`/api/articles/${articleId}/unpublish`, { method: 'POST' })
-    //     //   .then(() => window.location.reload());
-    //   }
-    // }
-  </script>
+        // function unpublishArticle(articleId) {
+        //   if (confirm("Are you sure you want to unpublish this article?")) {
+        //     // Add your unpublish logic here
+        //     console.log("Unpublishing article:", articleId); // eslint-disable-line no-console
+        //     // You would typically make an API call here
+        //     // fetch(`/api/articles/${articleId}/unpublish`, { method: 'POST' })
+        //     //   .then(() => window.location.reload());
+        //   }
+        // }
+    </script>
 </Layout>
