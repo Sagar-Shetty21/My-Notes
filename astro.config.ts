@@ -64,6 +64,6 @@ export default defineConfig({
     experimental: {
         preserveScriptOrder: true,
     },
-    output: "static", // required for SSR
+    output: "static",
     adapter: vercelAdapter(),
 });
