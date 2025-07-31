@@ -1,11 +1,12 @@
 ---
-// src/pages/admin/index.astro
+export const prerender = false;
 import { supabase } from "@/lib/supabaseClient";
 import Layout from "../../layouts/Layout.astro";
 import { slugifyStr } from "@/utils/slugify";
 import { SITE } from "@/config";
 import IconMoon from "@/assets/icons/IconMoon.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
+import SettingsIcon from "@/assets/icons/IconSettings.svg";
 
 type Article = {
     id: number;
@@ -26,8 +27,10 @@ type Article = {
 };
 
 const { data, error: recentArticlesError } = await supabase
-    .from("latest_blogs")
-    .select("*");
+    .from("blogs")
+    .select("*")
+    .order("modDatetime", { ascending: false })
+    .limit(10);
 const recentArticles = (data ?? []) as Article[];
 
 const { count: totalCount, error: totalArticlesError } = await supabase
@@ -65,7 +68,7 @@ const draftArticles = draftCount;
                             Manage your blog content and articles
                         </p>
                     </div>
-                    <div class="flex space-x-12">
+                    <div class="flex items-center space-x-12">
                         {
                             SITE.lightAndDarkMode && (
                                 <li class="col-span-1 flex items-center justify-center">
@@ -83,7 +86,13 @@ const draftArticles = draftCount;
                             )
                         }
                         <a
-                            href="/admin/manage-article"
+                            href="/admin/settings"
+                            class="focus-outline relative flex size-16 items-center justify-center transition-all hover:rotate-90 sm:size-8 hover:[&>svg]:stroke-accent"
+                        >
+                            <SettingsIcon class="size-7" />
+                        </a>
+                        <a
+                            href="/admin/manage"
                             class="flex items-center space-x-2 rounded-lg bg-accent px-6 py-3 font-medium text-foreground transition-colors duration-200 hover:bg-accent/80"
                         >
                             <svg

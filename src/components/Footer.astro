@@ -5,28 +5,28 @@ import Socials from "./Socials.astro";
 const currentYear = new Date().getFullYear();
 
 export interface Props {
-  noMarginTop?: boolean;
+    noMarginTop?: boolean;
 }
 
 const { noMarginTop = false } = Astro.props;
 ---
 
 <footer class:list={["w-full", { "mt-auto": !noMarginTop }]}>
-  <Hr noPadding />
-  <div
-    class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"
-  >
-    <Socials centered />
-
+    <Hr noPadding />
     <div
-      class="my-2 flex flex-col items-center text-sm whitespace-nowrap text-gray-600 sm:flex-row"
+        class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"
     >
-      <span>
-        &copy; {currentYear}
-        <strong>SagarShetty.dev</strong>
-      </span>
-      <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
-      <span>Built with Astro & ❤️</span>
+        <Socials centered />
+
+        <div
+            class="my-2 flex flex-col items-center text-sm whitespace-nowrap text-gray-600 sm:flex-row"
+        >
+            <span>
+                &copy; {currentYear}
+                <strong><a href="/admin">Dev.SagarShetty</a></strong>
+            </span>
+            <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
+            <span>Built with Astro & ❤️</span>
+        </div>
     </div>
-  </div>
 </footer>

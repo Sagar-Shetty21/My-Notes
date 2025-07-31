@@ -12,7 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const OUTPUT_DIR = "src/data/blog";
 
-type SupabaseBlogPost = {
+export type SupabaseBlogPost = {
   title: string;
   author?: string;
   pubDatetime: string | Date;

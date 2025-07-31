@@ -20,6 +20,7 @@ export async function POST({ request }: { request: Request }) {
             }
         );
     }
+    const currentDate = new Date();
 
     const { data, error } = await supabase
         .from("blogs")
@@ -39,8 +40,8 @@ export async function POST({ request }: { request: Request }) {
                 ogImage: body.ogImage || null,
                 canonicalURL: body.canonicalURL || null,
                 draft: body.draft,
-                pubDatetime: new Date().toISOString(),
-                modDatetime: null,
+                pubDatetime: currentDate.toISOString(),
+                modDatetime: currentDate.toISOString(),
             },
         ])
         .select();
@@ -85,8 +86,7 @@ export async function PUT({ request }: { request: Request }) {
             ogImage: body.ogImage || null,
             canonicalURL: body.canonicalURL || null,
             draft: body.draft,
-            pubDatetime: new Date().toISOString(),
-            modDatetime: null,
+            modDatetime: new Date().toISOString(),
         })
         .eq("id", body.id)
         .select();

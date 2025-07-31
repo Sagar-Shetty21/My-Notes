@@ -1,0 +1,451 @@
+---
+// Force server-side rendering for this page
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import { createServerClient } from "@supabase/ssr";
+
+const title: string = "Admin Portal - Login";
+
+// Check if user is already authenticated on the server
+const supabase = createServerClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+    {
+        cookies: {
+            get(key) {
+                return Astro.cookies.get(key)?.value;
+            },
+            set(key, value, options) {
+                Astro.cookies.set(key, value, options);
+            },
+            remove(key, options) {
+                Astro.cookies.delete(key, options);
+            },
+        },
+    }
+);
+
+const {
+    data: { session },
+} = await supabase.auth.getSession();
+
+// If already authenticated, redirect to admin dashboard
+if (session) {
+    const redirectTo = Astro.url.searchParams.get("redirect") || "/admin";
+    // Prevent redirect loops by ensuring we're not redirecting to login page
+    if (redirectTo !== "/admin/login" && redirectTo !== "/admin/login/") {
+        return Astro.redirect(redirectTo);
+    } else {
+        return Astro.redirect("/admin");
+    }
+}
+
+// Get redirect URL from query params
+const redirectTo = Astro.url.searchParams.get("redirect") || "/admin";
+const errorType = Astro.url.searchParams.get("error");
+---
+
+<Layout title={title}>
+    <main class="relative min-h-screen overflow-hidden">
+        <!-- Animated Background Stars -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div
+                class="absolute top-1/4 left-1/5 h-0.5 w-0.5 animate-pulse rounded-full bg-foreground opacity-70"
+            >
+            </div>
+            <div
+                class="animation-delay-500 absolute top-1/3 right-1/4 h-1 w-1 animate-ping rounded-full bg-foreground opacity-50"
+            >
+            </div>
+            <div
+                class="animation-delay-1000 absolute bottom-1/3 left-1/6 h-0.5 w-0.5 animate-pulse rounded-full bg-foreground opacity-60"
+            >
+            </div>
+            <div
+                class="animation-delay-1500 absolute top-1/2 right-1/5 h-1 w-1 animate-ping rounded-full bg-foreground opacity-40"
+            >
+            </div>
+            <div
+                class="animation-delay-2000 absolute right-1/2 bottom-1/4 h-0.5 w-0.5 animate-pulse rounded-full bg-foreground opacity-80"
+            >
+            </div>
+            <div
+                class="animation-delay-300 absolute top-1/6 right-1/12 h-0.5 w-0.5 animate-pulse rounded-full bg-foreground opacity-50"
+            >
+            </div>
+            <div
+                class="animation-delay-1200 absolute bottom-1/6 left-1/3 h-1 w-1 animate-ping rounded-full bg-foreground opacity-60"
+            >
+            </div>
+            <div
+                class="animation-delay-800 absolute top-2/5 left-2/5 h-0.5 w-0.5 animate-pulse rounded-full bg-foreground opacity-70"
+            >
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div
+            class="relative z-10 flex min-h-screen items-center justify-center px-4"
+        >
+            <div
+                class="w-full max-w-md transform rounded-3xl border border-foreground/10 bg-foreground/5 p-8 shadow-2xl backdrop-blur-xl transition-all duration-700 hover:scale-[1.02]"
+            >
+                <!-- Logo Section -->
+                <div class="mb-8 text-center">
+                    <h1
+                        class="my-2 bg-accent bg-clip-text text-4xl font-bold text-transparent"
+                    >
+                        Admin Login
+                    </h1>
+                    <p class="text-sm text-foreground/70">
+                        Access the dashboard to create and manage blog content.
+                    </p>
+                </div>
+
+                <!-- Error Message -->
+                {
+                    errorType === "unauthorized" && (
+                        <div class="mb-6 rounded-lg border border-red-300 bg-red-100 p-4 text-red-700">
+                            <p class="text-sm">
+                                Access denied. Admin privileges required.
+                            </p>
+                        </div>
+                    )
+                }
+
+                <!-- Login Form -->
+                <form id="loginForm" class="space-y-6">
+                    <!-- Hidden redirect field -->
+                    <input type="hidden" id="redirectTo" value={redirectTo} />
+
+                    <!-- Email Field -->
+                    <div class="space-y-2">
+                        <label
+                            for="email"
+                            class="block text-sm font-medium text-foreground/90"
+                        >
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            class="w-full rounded-xl border border-foreground/15 bg-foreground/8 px-4 py-3 text-foreground placeholder-foreground/50 transition-all duration-300 hover:bg-foreground/12 focus:border-transparent focus:ring-2 focus:ring-accent focus:outline-none"
+                            placeholder="Enter your email address"
+                        />
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <label
+                            for="password"
+                            class="block text-sm font-medium text-foreground/90"
+                        >
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            required
+                            class="w-full rounded-xl border border-foreground/15 bg-foreground/8 px-4 py-3 text-foreground placeholder-foreground/50 transition-all duration-300 hover:bg-foreground/12 focus:border-transparent focus:ring-2 focus:ring-accent focus:outline-none"
+                            placeholder="Enter your password"
+                        />
+                    </div>
+
+                    <!-- Remember Me Checkbox -->
+                    <div class="flex items-center justify-center pb-2">
+                        <input
+                            type="checkbox"
+                            id="remember"
+                            name="remember"
+                            class="h-3 w-3 rounded border-foreground/20 bg-foreground/8 text-accent focus:ring-2 focus:ring-accent"
+                        />
+                        <label
+                            for="remember"
+                            class="ml-2 text-sm text-foreground/70"
+                        >
+                            Remember me for 30 days
+                        </label>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button
+                        type="submit"
+                        class="w-full transform rounded-xl bg-accent px-4 py-3 font-semibold text-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none disabled:cursor-not-allowed disabled:opacity-70"
+                        id="loginButton"
+                    >
+                        <span class="login-text">Sign In to Dashboard</span>
+                    </button>
+                </form>
+
+                <!-- Forgot Password Link -->
+                <div class="mt-6 text-center">
+                    <a
+                        href="/admin/forgot-password"
+                        class="text-sm text-accent transition-colors duration-200 hover:text-accent/80"
+                    >
+                        Forgot your password?
+                    </a>
+                </div>
+
+                <!-- Footer -->
+                <p class="mt-8 text-center text-sm text-foreground/60">
+                    Powered by Supabase Auth
+                </p>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2">
+        </div>
+    </main>
+</Layout>
+
+<style>
+    .animation-delay-300 {
+        animation-delay: 0.3s;
+    }
+    .animation-delay-500 {
+        animation-delay: 0.5s;
+    }
+    .animation-delay-800 {
+        animation-delay: 0.8s;
+    }
+    .animation-delay-1000 {
+        animation-delay: 1s;
+    }
+    .animation-delay-1200 {
+        animation-delay: 1.2s;
+    }
+    .animation-delay-1500 {
+        animation-delay: 1.5s;
+    }
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+
+    /* Custom animations for enhanced UX */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+
+    .slide-in-right {
+        animation: slideInRight 0.3s ease-out;
+    }
+
+    .slide-out-right {
+        animation: slideOutRight 0.3s ease-out;
+    }
+</style>
+
+<script>
+    import { createBrowserClient } from "@supabase/ssr";
+
+    // Create Supabase client for browser
+    const supabase = createBrowserClient(
+        import.meta.env.PUBLIC_SUPABASE_URL,
+        import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    );
+
+    // Toast notification system
+    function showToast(
+        message: string,
+        type: "success" | "error" | "info" = "info"
+    ): void {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+
+        const toast: HTMLDivElement = document.createElement("div");
+        toast.className = `slide-in-right px-6 py-4 rounded-xl text-white font-medium shadow-lg max-w-sm`;
+
+        const colors: Record<string, string> = {
+            success: "bg-gradient-to-r from-green-500 to-emerald-600",
+            error: "bg-gradient-to-r from-red-500 to-rose-600",
+            info: "bg-gradient-to-r from-blue-500 to-indigo-600",
+        };
+
+        const colorClasses = (colors[type] || colors.info).split(" ");
+        toast.classList.add(...colorClasses);
+        toast.textContent = message;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.remove("slide-in-right");
+            toast.classList.add("slide-out-right");
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 300);
+        }, 4000);
+    }
+
+    // Initialize event listeners when page loads
+    document.addEventListener("astro:page-load", () => {
+        // Form submission handler
+        const loginForm = document.getElementById(
+            "loginForm"
+        ) as HTMLFormElement;
+        if (loginForm) {
+            loginForm.addEventListener("submit", async function (e: Event) {
+                e.preventDefault();
+
+                const email: string =
+                    (
+                        document.getElementById("email") as HTMLInputElement
+                    )?.value?.trim() || "";
+                const password: string =
+                    (document.getElementById("password") as HTMLInputElement)
+                        ?.value || "";
+                const redirectTo: string =
+                    (document.getElementById("redirectTo") as HTMLInputElement)
+                        ?.value || "/admin";
+
+                if (!email || !password) {
+                    showToast("Please fill in all fields", "error");
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showToast("Please enter a valid email address", "error");
+                    return;
+                }
+
+                // Show loading state
+                const button = document.getElementById(
+                    "loginButton"
+                ) as HTMLButtonElement;
+                const loginText = button?.querySelector(
+                    ".login-text"
+                ) as HTMLSpanElement;
+                const originalText: string = loginText?.textContent || "";
+
+                if (loginText) loginText.textContent = "Signing In...";
+                if (button) {
+                    button.disabled = true;
+                    button.classList.add("opacity-70");
+                }
+
+                try {
+                    const { data, error } =
+                        await supabase.auth.signInWithPassword({
+                            email: email,
+                            password: password,
+                        });
+
+                    if (error) {
+                        let errorMessage = "Login failed. Please try again.";
+
+                        if (
+                            error.message.includes("Invalid login credentials")
+                        ) {
+                            errorMessage =
+                                "Invalid email or password. Please check your credentials.";
+                        } else if (
+                            error.message.includes("Email not confirmed")
+                        ) {
+                            errorMessage =
+                                "Please check your email and confirm your account first.";
+                        } else if (
+                            error.message.includes("Too many requests")
+                        ) {
+                            errorMessage =
+                                "Too many login attempts. Please wait a few minutes and try again.";
+                        }
+
+                        showToast(errorMessage, "error");
+                    } else if (data.user && data.session) {
+                        showToast(
+                            "Login successful! Redirecting...",
+                            "success"
+                        );
+
+                        // Force a hard refresh to trigger server-side auth check
+                        setTimeout(() => {
+                            window.location.href = redirectTo;
+                        }, 1000);
+                    }
+                } catch (error: unknown) {
+                    const errorMessage =
+                        error instanceof Error
+                            ? error.message
+                            : "An unexpected error occurred. Please try again.";
+                    showToast(errorMessage, "error");
+                } finally {
+                    // Reset button state
+                    if (loginText) loginText.textContent = originalText;
+                    if (button) {
+                        button.disabled = false;
+                        button.classList.remove("opacity-70");
+                    }
+                }
+            });
+        }
+
+        // Add input focus effects
+        document.querySelectorAll("input").forEach((input: Element) => {
+            const htmlInput = input as HTMLInputElement;
+
+            htmlInput.addEventListener(
+                "focus",
+                function (this: HTMLInputElement) {
+                    this.parentElement?.classList.add(
+                        "transform",
+                        "scale-[1.02]"
+                    );
+                }
+            );
+
+            htmlInput.addEventListener(
+                "blur",
+                function (this: HTMLInputElement) {
+                    this.parentElement?.classList.remove(
+                        "transform",
+                        "scale-[1.02]"
+                    );
+                }
+            );
+        });
+
+        // Handle Enter key in form inputs
+        document
+            .querySelectorAll("#loginForm input")
+            .forEach((input: Element) => {
+                const htmlInput = input as HTMLInputElement;
+                htmlInput.addEventListener(
+                    "keypress",
+                    function (e: KeyboardEvent) {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            const form = document.getElementById(
+                                "loginForm"
+                            ) as HTMLFormElement;
+                            form?.dispatchEvent(new Event("submit"));
+                        }
+                    }
+                );
+            });
+    });
+</script>
