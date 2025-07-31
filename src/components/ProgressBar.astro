@@ -1,0 +1,204 @@
+---
+// components/ProgressBar.astro
+---
+
+<div id="progress-bar" class="progress-bar"></div>
+
+<style>
+    .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(
+            90deg,
+            var(--color-accent),
+            var(--color-accent)
+        );
+        width: 0;
+        z-index: 9999;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    .progress-bar.loading {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+</style>
+
+<script>
+    class ProgressBarLoader {
+        private progressBar: HTMLElement | null = null;
+        private loadingTimeout: ReturnType<typeof setTimeout> | null = null;
+        private clickedLinks: Set<string> = new Set();
+
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            // Use immediate execution instead of DOMContentLoaded
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () =>
+                    this.setup()
+                );
+            } else {
+                this.setup();
+            }
+
+            // Handle page navigation events
+            window.addEventListener("beforeunload", () => this.reset());
+            window.addEventListener("pageshow", () => {
+                this.reset();
+                this.clickedLinks.clear();
+            });
+            window.addEventListener("pagehide", () => this.reset());
+        }
+
+        setup() {
+            this.progressBar = document.getElementById("progress-bar");
+            this.attachListeners();
+            // Ensure bar is reset on setup
+            this.reset();
+        }
+
+        attachListeners() {
+            // Re-attach listeners each time (important for dynamic content)
+            document.addEventListener("click", (e: Event) => {
+                if (!e.target) return;
+
+                const link = (e.target as Element).closest("a");
+                if (!link) return;
+
+                const href = link.getAttribute("href");
+
+                // Skip external links, anchors, or already processing
+                if (
+                    !href ||
+                    href.startsWith("#") ||
+                    href.startsWith("http") ||
+                    href.startsWith("mailto:") ||
+                    href.startsWith("tel:") ||
+                    this.clickedLinks.has(href)
+                ) {
+                    return;
+                }
+
+                // Check if it's an internal navigation
+                if (
+                    href.startsWith("/") ||
+                    href.startsWith("./") ||
+                    href.startsWith("../")
+                ) {
+                    this.clickedLinks.add(href);
+                    this.startLoading();
+
+                    // Reset clicked state after a delay
+                    setTimeout(() => {
+                        this.clickedLinks.delete(href);
+                    }, 3000);
+                }
+            });
+        }
+
+        startLoading() {
+            if (!this.progressBar) return;
+
+            // Clear any existing timeout
+            if (this.loadingTimeout) {
+                clearTimeout(this.loadingTimeout);
+            }
+
+            // Reset first
+            this.progressBar.style.transition = "none";
+            this.progressBar.style.width = "0";
+            this.progressBar.classList.remove("loading");
+
+            // Force reflow
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            this.progressBar.offsetHeight;
+
+            // Start animation
+            this.progressBar.style.transition =
+                "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+            this.progressBar.classList.add("loading");
+
+            // Animate progress with more realistic timing
+            requestAnimationFrame(() => {
+                this.progressBar!.style.width = "20%";
+            });
+
+            setTimeout(() => {
+                this.progressBar!.style.width = "45%";
+            }, 150);
+
+            setTimeout(() => {
+                this.progressBar!.style.width = "70%";
+            }, 400);
+
+            setTimeout(() => {
+                this.progressBar!.style.width = "85%";
+            }, 800);
+
+            // Fallback reset - increased timeout
+            this.loadingTimeout = setTimeout(() => {
+                this.complete();
+            }, 8000);
+        }
+
+        complete() {
+            if (!this.progressBar) return;
+
+            this.progressBar.style.width = "100%";
+
+            setTimeout(() => {
+                this.reset();
+            }, 300);
+        }
+
+        reset() {
+            if (!this.progressBar) return;
+
+            if (this.loadingTimeout) {
+                clearTimeout(this.loadingTimeout);
+                this.loadingTimeout = null;
+            }
+
+            this.progressBar.style.width = "0";
+            this.progressBar.classList.remove("loading");
+        }
+    }
+
+    // Initialize immediately
+    new ProgressBarLoader();
+
+    // Re-initialize on navigation (for SPA-like behavior)
+    if (typeof window !== "undefined") {
+        let initialized = false;
+
+        const reinit = () => {
+            if (!initialized) {
+                initialized = true;
+                setTimeout(() => {
+                    initialized = false;
+                }, 100);
+
+                new ProgressBarLoader();
+            }
+        };
+
+        // Listen for various navigation events
+        window.addEventListener("popstate", reinit);
+        document.addEventListener("astro:page-load", reinit); // If using Astro's client routing
+    }
+</script>
