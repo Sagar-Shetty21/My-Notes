@@ -4,6 +4,7 @@ const SITE = {
   author: "Sagar Shetty",
   profile: "https://sagarshetty.netlify.app/",
   desc: "A minimalist blog theme for Astro",
+  hosting: "vercel",
   title: "MyNotes",
   ogImage: "astropaper-og.jpg",
   postPerIndex: 4,

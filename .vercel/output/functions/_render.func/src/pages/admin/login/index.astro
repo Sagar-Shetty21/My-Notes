@@ -1,4 +1,5 @@
 ---
+// Force server-side rendering for this page
 export const prerender = false;
 
 import Layout from "@/layouts/Layout.astro";
@@ -32,7 +33,12 @@ const {
 // If already authenticated, redirect to admin dashboard
 if (session) {
     const redirectTo = Astro.url.searchParams.get("redirect") || "/admin";
-    return Astro.redirect(redirectTo);
+    // Prevent redirect loops by ensuring we're not redirecting to login page
+    if (redirectTo !== "/admin/login" && redirectTo !== "/admin/login/") {
+        return Astro.redirect(redirectTo);
+    } else {
+        return Astro.redirect("/admin");
+    }
 }
 
 // Get redirect URL from query params

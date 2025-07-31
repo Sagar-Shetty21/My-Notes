@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, r as renderComponent, e as renderScript, g as renderTemplate, m as maybeRenderHead, b as addAttribute } from '../../chunks/astro/server_C9kPMc8v.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../../chunks/Layout_BKgePYbS.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_Dq374h-7.mjs';
 import { createServerClient } from '@supabase/ssr';
 /* empty css                                    */
 export { renderers } from '../../renderers.mjs';
@@ -33,7 +33,11 @@ const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   } = await supabase.auth.getSession();
   if (session) {
     const redirectTo2 = Astro2.url.searchParams.get("redirect") || "/admin";
-    return Astro2.redirect(redirectTo2);
+    if (redirectTo2 !== "/admin/login" && redirectTo2 !== "/admin/login/") {
+      return Astro2.redirect(redirectTo2);
+    } else {
+      return Astro2.redirect("/admin");
+    }
   }
   const redirectTo = Astro2.url.searchParams.get("redirect") || "/admin";
   const errorType = Astro2.url.searchParams.get("error");

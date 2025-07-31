@@ -11,7 +11,7 @@ const onRequest$1 = defineMiddleware(async (context, next) => {
   if (!context.url.pathname.startsWith("/admin")) {
     return next();
   }
-  if (context.url.pathname === "/admin/login" || context.url.pathname === "/admin/forgot-password") {
+  if (context.url.pathname === "/admin/login" || context.url.pathname === "/admin/login/" || context.url.pathname === "/admin/forgot-password") {
     return next();
   }
   const supabase = createServerClient(
@@ -36,9 +36,7 @@ const onRequest$1 = defineMiddleware(async (context, next) => {
       data: { session },
       error
     } = await supabase.auth.getSession();
-    console.log("sess", session);
     if (error) {
-      console.error("Supabase auth error:", error);
       const redirectUrl = `/admin/login?redirect=${encodeURIComponent(context.url.pathname)}`;
       return context.redirect(redirectUrl);
     }
@@ -58,8 +56,7 @@ const onRequest$1 = defineMiddleware(async (context, next) => {
     context.locals.user = user;
     context.locals.session = session;
     return next();
-  } catch (err) {
-    console.error("Middleware error:", err);
+  } catch {
     const redirectUrl = `/admin/login?redirect=${encodeURIComponent(context.url.pathname)}`;
     return context.redirect(redirectUrl);
   }

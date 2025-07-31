@@ -1,18 +1,25 @@
-import { c as createAstro, a as createComponent, b as addAttribute, e as renderScript, g as renderTemplate, d as renderSlot, j as renderHead, r as renderComponent, u as unescapeHTML } from './astro/server_C9kPMc8v.mjs';
+import { c as createAstro, a as createComponent, b as addAttribute, e as renderScript, g as renderTemplate, m as maybeRenderHead, d as renderSlot, r as renderComponent, j as renderHead, u as unescapeHTML } from './astro/server_C9kPMc8v.mjs';
 import 'kleur/colors';
 import 'clsx';
 /* empty css                         */
-import { S as SITE } from './config_CCYON4iF.mjs';
+import { S as SITE } from './config_BNeQ3wY4.mjs';
 
-const $$Astro$1 = createAstro("https://astro-paper.pages.dev/");
+const $$Astro$2 = createAstro("https://astro-paper.pages.dev/");
 const $$ClientRouter = createComponent(($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
+  const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
   Astro2.self = $$ClientRouter;
   const { fallback = "animate" } = Astro2.props;
   return renderTemplate`<meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback"${addAttribute(fallback, "content")}>${renderScript($$result, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ClientRouter.astro", void 0);
 
 const PUBLIC_GOOGLE_SITE_VERIFICATION = undefined;
+
+const $$Astro$1 = createAstro("https://astro-paper.pages.dev/");
+const $$ProgressBar = createComponent(($$result, $$props, $$slots) => {
+  const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
+  Astro2.self = $$ProgressBar;
+  return renderTemplate`${maybeRenderHead()}<div id="progress-bar" class="progress-bar" data-astro-cid-jx4nc67j></div>  ${renderScript($$result, "/home/iam/Projects/On Going/My-Notes/src/components/ProgressBar.astro?astro&type=script&index=0&lang.ts")}`;
+}, "/home/iam/Projects/On Going/My-Notes/src/components/ProgressBar.astro", void 0);
 
 var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
@@ -50,7 +57,7 @@ const $$Layout = createComponent(($$result, $$props, $$slots) => {
     ]
   };
   return renderTemplate(
-    _a || (_a = __template(["<html", "", "", ' data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical"', '><meta name="generator"', "><!-- General Meta Tags --><title>", '</title><meta name="title"', '><meta name="description"', '><meta name="author"', '><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title"', '><meta property="og:description"', '><meta property="og:url"', '><meta property="og:image"', "><!-- Article Published/Modified time -->", "", '<!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url"', '><meta property="twitter:title"', '><meta property="twitter:description"', '><meta property="twitter:image"', '><!-- Google JSON-LD Structured data --><script type="application/ld+json">', '<\/script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml"', "", '><meta name="theme-color" content="">', "", '<script src="/toggle-theme.js"><\/script>', "</head> <body data-astro-cid-sckkx6r4> ", " </body></html>"])),
+    _a || (_a = __template(["<html", "", "", ' data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical"', '><meta name="generator"', "><!-- General Meta Tags --><title>", '</title><meta name="title"', '><meta name="description"', '><meta name="author"', '><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title"', '><meta property="og:description"', '><meta property="og:url"', '><meta property="og:image"', "><!-- Article Published/Modified time -->", "", '<!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url"', '><meta property="twitter:title"', '><meta property="twitter:description"', '><meta property="twitter:image"', '><!-- Google JSON-LD Structured data --><script type="application/ld+json">', '<\/script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml"', "", '><meta name="theme-color" content="">', "", '<script src="/toggle-theme.js"><\/script>', "</head> <body data-astro-cid-sckkx6r4> ", " ", " </body></html>"])),
     addAttribute(SITE.dir, "dir"),
     addAttribute(`${SITE.lang}`, "lang"),
     addAttribute(`${scrollSmooth && "scroll-smooth"}`, "class"),
@@ -79,6 +86,7 @@ const $$Layout = createComponent(($$result, $$props, $$slots) => {
     PUBLIC_GOOGLE_SITE_VERIFICATION,
     renderComponent($$result, "ClientRouter", $$ClientRouter, { "data-astro-cid-sckkx6r4": true }),
     renderHead(),
+    renderComponent($$result, "ProgressBar", $$ProgressBar, { "data-astro-cid-sckkx6r4": true }),
     renderSlot($$result, $$slots["default"])
   );
 }, "/home/iam/Projects/On Going/My-Notes/src/layouts/Layout.astro", void 0);
