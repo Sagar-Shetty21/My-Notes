@@ -1,9 +1,9 @@
-import { d as defineMiddleware, s as sequence } from './chunks/index_DVnOS8OA.mjs';
+import { d as defineMiddleware, s as sequence } from './chunks/index_Cba24ASn.mjs';
 import { createServerClient } from '@supabase/ssr';
 import 'es-module-lexer';
-import './chunks/astro-designed-error-pages_Da3QDmNM.mjs';
+import './chunks/astro-designed-error-pages_152ZTHP_.mjs';
 import 'kleur/colors';
-import './chunks/astro/server_C9kPMc8v.mjs';
+import './chunks/astro/server_ixCSCnnp.mjs';
 import 'clsx';
 import 'cookie';
 

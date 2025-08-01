@@ -1,10 +1,10 @@
 import { serialize, parse } from 'cookie';
-import { Z as decryptString, _ as createSlotValueFromString, $ as isAstroComponentFactory, r as renderComponent, g as renderTemplate, S as REROUTE_DIRECTIVE_HEADER, A as AstroError, a0 as i18nNoLocaleFoundInPath, a1 as ResponseSentError, a2 as originPathnameSymbol, a3 as RewriteWithBodyUsed, a4 as GetStaticPathsRequired, a5 as InvalidGetStaticPathsReturn, a6 as InvalidGetStaticPathsEntry, a7 as GetStaticPathsExpectedParams, a8 as GetStaticPathsInvalidRouteParam, a9 as PageNumberParamNotFound, D as DEFAULT_404_COMPONENT, aa as NoMatchingStaticPathFound, ab as PrerenderDynamicEndpointPathCollide, ac as ReservedSlotName, ad as renderSlotToString, ae as renderJSX, af as chunkToString, ag as isRenderInstruction, ah as MiddlewareNoDataOrNextCalled, ai as MiddlewareNotAResponse, aj as SessionStorageInitError, ak as SessionStorageSaveError, Q as ROUTE_TYPE_HEADER, al as ForbiddenRewrite, am as ASTRO_VERSION, an as CspNotEnabled, ao as LocalsReassigned, ap as generateCspDigest, aq as PrerenderClientAddressNotAvailable, V as clientAddressSymbol, ar as ClientAddressNotAvailable, as as StaticClientAddressNotAvailable, at as AstroResponseHeadersReassigned, Y as responseSentSymbol$1, au as renderPage, av as REWRITE_DIRECTIVE_HEADER_KEY, aw as REWRITE_DIRECTIVE_HEADER_VALUE, ax as renderEndpoint } from './astro/server_C9kPMc8v.mjs';
+import { B as decryptString, C as createSlotValueFromString, E as isAstroComponentFactory, r as renderComponent, a as renderTemplate, t as REROUTE_DIRECTIVE_HEADER, A as AstroError, G as i18nNoLocaleFoundInPath, H as ResponseSentError, I as originPathnameSymbol, J as RewriteWithBodyUsed, K as GetStaticPathsRequired, M as InvalidGetStaticPathsReturn, N as InvalidGetStaticPathsEntry, O as GetStaticPathsExpectedParams, P as GetStaticPathsInvalidRouteParam, Q as PageNumberParamNotFound, D as DEFAULT_404_COMPONENT, S as NoMatchingStaticPathFound, T as PrerenderDynamicEndpointPathCollide, V as ReservedSlotName, W as renderSlotToString, X as renderJSX, Y as chunkToString, Z as isRenderInstruction, _ as MiddlewareNoDataOrNextCalled, $ as MiddlewareNotAResponse, a0 as SessionStorageInitError, a1 as SessionStorageSaveError, q as ROUTE_TYPE_HEADER, a2 as ForbiddenRewrite, a3 as ASTRO_VERSION, a4 as CspNotEnabled, a5 as LocalsReassigned, a6 as generateCspDigest, a7 as PrerenderClientAddressNotAvailable, w as clientAddressSymbol, a8 as ClientAddressNotAvailable, a9 as StaticClientAddressNotAvailable, aa as AstroResponseHeadersReassigned, z as responseSentSymbol$1, ab as renderPage, ac as REWRITE_DIRECTIVE_HEADER_KEY, ad as REWRITE_DIRECTIVE_HEADER_VALUE, ae as renderEndpoint } from './astro/server_ixCSCnnp.mjs';
 import { green } from 'kleur/colors';
 import 'clsx';
 import 'es-module-lexer';
-import { g as getActionQueryString, a as deserializeActionResult, D as DEFAULT_404_ROUTE, A as ActionError, s as serializeActionResult, b as ACTION_RPC_ROUTE_PATTERN, c as ACTION_QUERY_PARAMS } from './astro-designed-error-pages_Da3QDmNM.mjs';
-import { b as appendForwardSlash, j as joinPaths, a as removeTrailingForwardSlash, p as prependForwardSlash, t as trimSlashes } from './path_bxFO2Kst.mjs';
+import { g as getActionQueryString, a as deserializeActionResult, D as DEFAULT_404_ROUTE, A as ActionError, s as serializeActionResult, b as ACTION_RPC_ROUTE_PATTERN, c as ACTION_QUERY_PARAMS } from './astro-designed-error-pages_152ZTHP_.mjs';
+import { b as appendForwardSlash, j as joinPaths, a as removeTrailingForwardSlash, p as prependForwardSlash, t as trimSlashes } from './path_CUwa3hy-.mjs';
 import { unflatten as unflatten$1, stringify as stringify$1 } from 'devalue';
 import { createStorage, builtinDrivers } from 'unstorage';
 
@@ -1513,7 +1513,14 @@ class AstroSession {
    * Destroys the session, clearing the cookie and storage if it exists.
    */
   destroy() {
-    this.#destroySafe();
+    const sessionId = this.#sessionID ?? this.#cookies.get(this.#cookieName)?.value;
+    if (sessionId) {
+      this.#toDestroy.add(sessionId);
+    }
+    this.#cookies.delete(this.#cookieName, this.#cookieConfig);
+    this.#sessionID = void 0;
+    this.#data = void 0;
+    this.#dirty = true;
   }
   /**
    * Regenerates the session, creating a new session ID. The existing session data is preserved.
@@ -1621,7 +1628,7 @@ class AstroSession {
     try {
       const storedMap = unflatten(raw);
       if (!(storedMap instanceof Map)) {
-        await this.#destroySafe();
+        await this.destroy();
         throw new AstroError({
           ...SessionStorageInitError,
           message: SessionStorageInitError.message(
@@ -1640,7 +1647,7 @@ class AstroSession {
       this.#partial = false;
       return this.#data;
     } catch (err) {
-      await this.#destroySafe();
+      await this.destroy();
       if (err instanceof AstroError) {
         throw err;
       }
@@ -1655,20 +1662,6 @@ class AstroSession {
         { cause: err }
       );
     }
-  }
-  /**
-   * Safely destroys the session, clearing the cookie and storage if it exists.
-   */
-  #destroySafe() {
-    if (this.#sessionID) {
-      this.#toDestroy.add(this.#sessionID);
-    }
-    if (this.#cookieName) {
-      this.#cookies.delete(this.#cookieName, this.#cookieConfig);
-    }
-    this.#sessionID = void 0;
-    this.#data = void 0;
-    this.#dirty = true;
   }
   /**
    * Returns the session ID, generating a new one if it does not exist.

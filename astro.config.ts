@@ -64,6 +64,6 @@ export default defineConfig({
     experimental: {
         preserveScriptOrder: true,
     },
-    output: "static",
+    output: "server",
     adapter: vercelAdapter(),
 });

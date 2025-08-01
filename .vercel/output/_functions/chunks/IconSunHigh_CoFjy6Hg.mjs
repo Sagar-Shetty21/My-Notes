@@ -1,4 +1,4 @@
-import { a as createComponent, s as spreadAttributes, u as unescapeHTML, g as renderTemplate } from './astro/server_C9kPMc8v.mjs';
+import { c as createComponent, s as spreadAttributes, u as unescapeHTML, a as renderTemplate } from './astro/server_ixCSCnnp.mjs';
 import 'clsx';
 
 function createSvgComponent({ meta, attributes, children }) {

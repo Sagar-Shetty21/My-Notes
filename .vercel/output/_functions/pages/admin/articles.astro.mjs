@@ -1,9 +1,9 @@
-import { c as createAstro, a as createComponent, r as renderComponent, g as renderTemplate, m as maybeRenderHead, b as addAttribute, e as renderScript } from '../../chunks/astro/server_C9kPMc8v.mjs';
+import { b as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderScript } from '../../chunks/astro/server_ixCSCnnp.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../../chunks/Layout_Dq374h-7.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_BUoxi9Ex.mjs';
 import { s as supabase } from '../../chunks/supabaseClient_u_L1k4gK.mjs';
-import { I as IconMoon, a as IconSunHigh } from '../../chunks/IconSunHigh_CcvG3wmw.mjs';
-import { S as SettingsIcon } from '../../chunks/IconSettings_CGitzfYr.mjs';
+import { I as IconMoon, a as IconSunHigh } from '../../chunks/IconSunHigh_CoFjy6Hg.mjs';
+import { S as SettingsIcon } from '../../chunks/IconSettings_DVS9z-2H.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro("https://astro-paper.pages.dev/");

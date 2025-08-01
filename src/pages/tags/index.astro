@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import { getCollection } from "astro:content";
 import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -14,11 +15,11 @@ let tags = getUniqueTags(posts);
 ---
 
 <Layout title={`Tags | ${SITE.title}`}>
-  <Header />
-  <Main pageTitle="Tags" pageDesc="All the tags used in posts.">
-    <ul>
-      {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} size="lg" />)}
-    </ul>
-  </Main>
-  <Footer />
+    <Header />
+    <Main pageTitle="Tags" pageDesc="All the tags used in posts.">
+        <ul>
+            {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} size="lg" />)}
+        </ul>
+    </Main>
+    <Footer />
 </Layout>

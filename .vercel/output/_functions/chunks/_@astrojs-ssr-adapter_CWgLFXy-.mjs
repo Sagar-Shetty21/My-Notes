@@ -1,15 +1,15 @@
-import { Q as ROUTE_TYPE_HEADER, S as REROUTE_DIRECTIVE_HEADER, D as DEFAULT_404_COMPONENT, A as AstroError, T as ActionNotFoundError, V as clientAddressSymbol, W as LocalsNotAnObject, X as REROUTABLE_STATUS_CODES, Y as responseSentSymbol } from './astro/server_C9kPMc8v.mjs';
+import { q as ROUTE_TYPE_HEADER, t as REROUTE_DIRECTIVE_HEADER, D as DEFAULT_404_COMPONENT, A as AstroError, v as ActionNotFoundError, w as clientAddressSymbol, x as LocalsNotAnObject, y as REROUTABLE_STATUS_CODES, z as responseSentSymbol } from './astro/server_ixCSCnnp.mjs';
 import { bold, red, yellow, dim, blue } from 'kleur/colors';
 import 'clsx';
 import 'cookie';
-import { D as DEFAULT_404_ROUTE, d as default404Instance, e as ensure404Route } from './astro-designed-error-pages_Da3QDmNM.mjs';
+import { D as DEFAULT_404_ROUTE, d as default404Instance, e as ensure404Route } from './astro-designed-error-pages_152ZTHP_.mjs';
 import 'es-module-lexer';
 import buffer from 'node:buffer';
 import crypto$1 from 'node:crypto';
 import { Http2ServerResponse } from 'node:http2';
-import { f as fileExtension, j as joinPaths, s as slash, p as prependForwardSlash, a as removeTrailingForwardSlash, b as appendForwardSlash, c as collapseDuplicateTrailingSlashes, h as hasFileExtension } from './path_bxFO2Kst.mjs';
-import { r as requestIs404Or500, i as isRequestServerIsland, n as notFound, a as redirectToFallback, b as redirectToDefaultLocale, c as requestHasLocale, e as normalizeTheLocale, d as defineMiddleware, S as SERVER_ISLAND_COMPONENT, f as SERVER_ISLAND_ROUTE, g as createEndpoint, R as RouteCache, s as sequence, h as findRouteToRewrite, m as matchRoute, j as RenderContext, P as PERSIST_SYMBOL, k as getSetCookiesFromResponse } from './index_DVnOS8OA.mjs';
-import { N as NOOP_MIDDLEWARE_FN } from './noop-middleware_DqG5-Kt9.mjs';
+import { f as fileExtension, j as joinPaths, s as slash, p as prependForwardSlash, a as removeTrailingForwardSlash, b as appendForwardSlash, c as isInternalPath, d as collapseDuplicateTrailingSlashes, h as hasFileExtension } from './path_CUwa3hy-.mjs';
+import { r as requestIs404Or500, i as isRequestServerIsland, n as notFound, a as redirectToFallback, b as redirectToDefaultLocale, c as requestHasLocale, e as normalizeTheLocale, d as defineMiddleware, S as SERVER_ISLAND_COMPONENT, f as SERVER_ISLAND_ROUTE, g as createEndpoint, R as RouteCache, s as sequence, h as findRouteToRewrite, m as matchRoute, j as RenderContext, P as PERSIST_SYMBOL, k as getSetCookiesFromResponse } from './index_Cba24ASn.mjs';
+import { N as NOOP_MIDDLEWARE_FN } from './noop-middleware_BK8d4r2H.mjs';
 import '@vercel/routing-utils';
 import './index_MaT6fT73.mjs';
 import 'deterministic-object-hash';
@@ -764,7 +764,7 @@ class App {
   }
   #redirectTrailingSlash(pathname) {
     const { trailingSlash } = this.#manifest;
-    if (pathname === "/" || pathname.startsWith("/_")) {
+    if (pathname === "/" || isInternalPath(pathname)) {
       return pathname;
     }
     const path = collapseDuplicateTrailingSlashes(pathname, trailingSlash !== "never");
@@ -1271,4 +1271,10 @@ const createExports = (manifest, { middlewareSecret, skewProtection }) => {
 function start() {
 }
 
-export { createExports as c, start as s };
+const serverEntrypointModule = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  createExports,
+  start
+}, Symbol.toStringTag, { value: 'Module' }));
+
+export { start as a, createExports as c, serverEntrypointModule as s };
