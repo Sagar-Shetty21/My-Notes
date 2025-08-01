@@ -10,7 +10,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
-import vercelAdapter from "@astrojs/vercel";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
@@ -65,7 +65,7 @@ export default defineConfig({
         preserveScriptOrder: true,
     },
     output: "server",
-    adapter: vercelAdapter({
+    adapter: vercel({
         imageService: true,
         webAnalytics: {
             enabled: true,
