@@ -65,5 +65,10 @@ export default defineConfig({
         preserveScriptOrder: true,
     },
     output: "server",
-    adapter: vercelAdapter(),
+    adapter: vercelAdapter({
+        imageService: true,
+        webAnalytics: {
+            enabled: true,
+        },
+    }),
 });
