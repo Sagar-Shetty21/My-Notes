@@ -29,3 +29,5 @@ public/pagefind
 
 # blog markdown files
 src/data/blog/*.md
+
+.vercel/
