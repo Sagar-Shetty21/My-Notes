@@ -1,6 +1,6 @@
 import { b as createAstro, c as createComponent, r as renderComponent, f as renderScript, a as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../../chunks/astro/server_ixCSCnnp.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../../chunks/Layout_BUoxi9Ex.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_D2ta28gk.mjs';
 import { createServerClient } from '@supabase/ssr';
 /* empty css                                    */
 export { renderers } from '../../renderers.mjs';

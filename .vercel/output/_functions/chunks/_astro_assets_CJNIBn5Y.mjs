@@ -508,7 +508,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_DdX8R6Wa.mjs'
+      './sharp_CHBsH0i3.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -674,7 +674,7 @@ const $$Image = createComponent(async ($$result, $$props, $$slots) => {
   }
   const { class: className, ...attributes } = { ...additionalAttributes, ...image.attributes };
   return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}>`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/Image.astro", void 0);
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/Image.astro", void 0);
 
 const $$Astro$3 = createAstro("https://astro-paper.pages.dev/");
 const $$ResponsiveImage = createComponent(($$result, $$props, $$slots) => {
@@ -682,7 +682,7 @@ const $$ResponsiveImage = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$ResponsiveImage;
   const { class: className, ...props } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "Image", $$Image, { ...props, "class": className })}`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ResponsiveImage.astro", void 0);
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/ResponsiveImage.astro", void 0);
 
 const $$Astro$2 = createAstro("https://astro-paper.pages.dev/");
 const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
@@ -753,7 +753,7 @@ const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
     const srcsetAttribute = props.densities || !props.densities && !props.widths && !useResponsive ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}` : image.srcSet.attribute;
     return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
   })}  <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}> </picture>`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/Picture.astro", void 0);
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/Picture.astro", void 0);
 
 const $$Astro$1 = createAstro("https://astro-paper.pages.dev/");
 const $$ResponsivePicture = createComponent(($$result, $$props, $$slots) => {
@@ -761,7 +761,7 @@ const $$ResponsivePicture = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$ResponsivePicture;
   const { class: className, ...props } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "Picture", $$Picture, { ...props, "class": className })}`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ResponsivePicture.astro", void 0);
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/ResponsivePicture.astro", void 0);
 
 const mod = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null
@@ -784,7 +784,7 @@ const $$Font = createComponent(($$result, $$props, $$slots) => {
     });
   }
   return renderTemplate`${preload && data.preloadData.map(({ url, type }) => renderTemplate`<link rel="preload"${addAttribute(url, "href")} as="font"${addAttribute(`font/${type}`, "type")} crossorigin>`)}<style>${unescapeHTML(data.css)}</style>`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/Font.astro", void 0);
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/Font.astro", void 0);
 
 const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"layout":"constrained","responsiveStyles":true};
 							const getImage = async (options) => await getImage$1(options, imageConfig);

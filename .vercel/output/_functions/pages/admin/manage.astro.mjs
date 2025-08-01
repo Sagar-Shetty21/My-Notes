@@ -3,7 +3,7 @@ import 'kleur/colors';
 import { s as supabase } from '../../chunks/supabaseClient_u_L1k4gK.mjs';
 import { S as SITE } from '../../chunks/config_BNeQ3wY4.mjs';
 import { I as IconMoon, a as IconSunHigh } from '../../chunks/IconSunHigh_CoFjy6Hg.mjs';
-import { $ as $$Layout } from '../../chunks/Layout_BUoxi9Ex.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_D2ta28gk.mjs';
 /* empty css                                    */
 export { renderers } from '../../renderers.mjs';
 

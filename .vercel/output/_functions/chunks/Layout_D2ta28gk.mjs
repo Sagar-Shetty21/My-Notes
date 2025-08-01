@@ -9,8 +9,8 @@ const $$ClientRouter = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
   Astro2.self = $$ClientRouter;
   const { fallback = "animate" } = Astro2.props;
-  return renderTemplate`<meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback"${addAttribute(fallback, "content")}>${renderScript($$result, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts")}`;
-}, "/home/iam/Projects/On Going/My-Notes/node_modules/astro/components/ClientRouter.astro", void 0);
+  return renderTemplate`<meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback"${addAttribute(fallback, "content")}>${renderScript($$result, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts")}`;
+}, "/home/iam/Projects/On Going/My-Notes/node_modules/.pnpm/astro@5.12.7_jiti@2.4.2_lightningcss@1.30.1_rollup@4.41.1_tsx@4.20.3_typescript@5.8.3_yaml@2.7.0/node_modules/astro/components/ClientRouter.astro", void 0);
 
 const PUBLIC_GOOGLE_SITE_VERIFICATION = undefined;
 

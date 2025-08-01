@@ -13,59 +13,59 @@
 		},
 		{
 			"src": "^/_server-islands/([^/]+?)/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/_image/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/about/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/admin/articles/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/admin/login/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/admin/manage/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/admin/settings/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/admin/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/api/blog-files/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/api/create-blog/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/og\\.png/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/posts(?:/(.*?))?/index\\.png/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/robots\\.txt/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/rss\\.xml/?$",
-			"dest": "_render"
+			"dest": "_middleware"
 		},
 		{
 			"src": "^/.*$",

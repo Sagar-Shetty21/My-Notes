@@ -1,4 +1,4 @@
-import { g as generateOgImageForSite } from '../chunks/generateOgImages_rGAZxS0s.mjs';
+import { g as generateOgImageForSite } from '../chunks/generateOgImages_D4_Ozsuj.mjs';
 export { renderers } from '../renderers.mjs';
 
 const GET = async () => new Response(await generateOgImageForSite(), {

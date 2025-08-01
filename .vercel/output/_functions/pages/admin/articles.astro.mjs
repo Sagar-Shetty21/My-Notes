@@ -1,6 +1,6 @@
 import { b as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderScript } from '../../chunks/astro/server_ixCSCnnp.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../../chunks/Layout_BUoxi9Ex.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_D2ta28gk.mjs';
 import { s as supabase } from '../../chunks/supabaseClient_u_L1k4gK.mjs';
 import { I as IconMoon, a as IconSunHigh } from '../../chunks/IconSunHigh_CoFjy6Hg.mjs';
 import { S as SettingsIcon } from '../../chunks/IconSettings_DVS9z-2H.mjs';

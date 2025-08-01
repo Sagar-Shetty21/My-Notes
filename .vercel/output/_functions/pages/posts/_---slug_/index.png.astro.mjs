@@ -1,6 +1,6 @@
-import { g as getCollection } from '../../../chunks/_astro_content_D3sKKHaO.mjs';
-import { g as getPath } from '../../../chunks/getPath_CzVCyMiw.mjs';
-import { a as generateOgImageForPost } from '../../../chunks/generateOgImages_rGAZxS0s.mjs';
+import { g as getCollection } from '../../../chunks/_astro_content_BRROc3zo.mjs';
+import { g as getPath } from '../../../chunks/getPath_CUhK9-pm.mjs';
+import { a as generateOgImageForPost } from '../../../chunks/generateOgImages_D4_Ozsuj.mjs';
 export { renderers } from '../../../renderers.mjs';
 
 async function getStaticPaths() {

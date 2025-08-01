@@ -1,5 +1,5 @@
 import { Resvg } from '@resvg/resvg-js';
-import './_astro_content_D3sKKHaO.mjs';
+import './_astro_content_BRROc3zo.mjs';
 import satori from 'satori';
 import { S as SITE } from './config_BNeQ3wY4.mjs';
 

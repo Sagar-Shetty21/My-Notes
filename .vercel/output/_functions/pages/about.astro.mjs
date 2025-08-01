@@ -2,7 +2,7 @@ import { b as createAstro, c as createComponent, r as renderComponent, a as rend
 import 'kleur/colors';
 import { $ as $$Header, b as $$Footer } from '../chunks/Footer_CSl-ak1-.mjs';
 import { $ as $$Breadcrumb } from '../chunks/Breadcrumb_Cm_0Ifuq.mjs';
-import { $ as $$Layout } from '../chunks/Layout_BUoxi9Ex.mjs';
+import { $ as $$Layout } from '../chunks/Layout_D2ta28gk.mjs';
 import { S as SITE } from '../chunks/config_BNeQ3wY4.mjs';
 export { renderers } from '../renderers.mjs';
 

@@ -1,4 +1,4 @@
-import { C as CONTENT_LAYER_TYPE, L as LIVE_CONTENT_TYPE, d as defineCollection } from './_astro_content_D3sKKHaO.mjs';
+import { C as CONTENT_LAYER_TYPE, L as LIVE_CONTENT_TYPE, d as defineCollection } from './_astro_content_BRROc3zo.mjs';
 import 'js-yaml';
 import 'smol-toml';
 import path, { relative } from 'node:path';
