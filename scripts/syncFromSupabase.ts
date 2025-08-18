@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { format } from "date-fns";
 import { createClient } from "@supabase/supabase-js";
+import { slugifyStr } from "@/utils/slugify";
 
 const supabaseUrl = process.env.PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.PUBLIC_SUPABASE_ANON_KEY!;
@@ -64,12 +65,13 @@ const formatFrontmatter = (post: SupabaseBlogPost) => {
 };
 
 const generateSlug = (title: string) => {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/-+/g, "-") // Replace multiple hyphens with single
-    .replace(/(^-|-$)/g, ""); // Remove leading/trailing hyphens
+  // return title
+  //   .toLowerCase()
+  //   .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+  //   .replace(/\s+/g, "-") // Replace spaces with hyphens
+  //   .replace(/-+/g, "-") // Replace multiple hyphens with single
+  //   .replace(/(^-|-$)/g, ""); // Remove leading/trailing hyphens
+  return slugifyStr(title)
 };
 
 async function cleanExistingFiles() {
