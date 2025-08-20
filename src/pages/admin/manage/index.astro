@@ -17,6 +17,8 @@ let existingArticle = {
     body: "# Sample Article\n\nThis is **sample content** for the article editor.\n\n## Features\n\n- Markdown support\n- Live preview\n- Rich text editing\n\n```javascript\nconsole.log('Code highlighting works!');\n```",
     author: SITE.author,
     featured: false,
+    ogImage: "",
+    canonicalURL: "",
     tags: [],
 };
 let existingArticleError = null;
@@ -199,7 +201,7 @@ Start writing your article here...
                                 type="url"
                                 id="ogImage"
                                 name="ogImage"
-                                value=""
+                                value={existingArticle?.ogImage || ""}
                                 class="w-full rounded-lg border border-border px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                                 placeholder="https://example.com/image.jpg"
                             />
@@ -220,7 +222,7 @@ Start writing your article here...
                                 type="url"
                                 id="canonicalURL"
                                 name="canonicalURL"
-                                value=""
+                                value={existingArticle?.canonicalURL || ""}
                                 class="w-full rounded-lg border border-border px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                                 placeholder="https://example.com/original-article"
                             />

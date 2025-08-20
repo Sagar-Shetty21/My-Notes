@@ -1,11 +1,11 @@
 export const SITE = {
-    website: "https://astro-paper.pages.dev/", // replace this with your deployed domain
+    website: "https://mynotes-sagar.vercel.app/", // replace this with your deployed domain
     author: "Sagar Shetty",
     profile: "https://sagarshetty.netlify.app/",
-    desc: "A minimalist blog theme for Astro",
+    desc: "A minimalist blog theme for Astro with admin panel for managing blogs.",
     hosting: "vercel",
     title: "MyNotes",
-    ogImage: "astropaper-og.jpg",
+    ogImage: "",
     lightAndDarkMode: true,
     postPerIndex: 4,
     postPerPage: 4,
@@ -20,5 +20,5 @@ export const SITE = {
     dynamicOgImage: true,
     dir: "ltr", // "rtl" | "auto"
     lang: "en", // html lang code. Set this empty and default will be "en"
-    timezone: "Asia/Bangkok", // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    timezone: "Asia/Kolkata", // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 } as const;
