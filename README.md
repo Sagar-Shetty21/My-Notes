@@ -1,6 +1,7 @@
-# MyNotes
+# 📓 MyNotes – An Astro Paper Fork with Admin Panel
 
-A personal article publishing app built on top of Astro's blog theme with Supabase integration for dynamic content management.
+MyNotes is a fork of the popular [Astro Paper](https://github.com/satnaing/astro-paper) theme, extended with a built-in admin panel to make blogging seamless.
+It allows you to write, edit, and manage blog posts on the go without diving into markdown files or touching the codebase.
 
 ## ✨ Features
 
